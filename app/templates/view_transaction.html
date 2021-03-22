@@ -1,0 +1,74 @@
+{% extends "base.html" %}
+{% block title %}MEMBER{% endblock %}
+{% block head %}
+{% endblock %}
+{% block content %}
+    {{super()}}
+        <div>
+            <nav class="navbar navbar-expand-lg navbar-light bg-light">
+                <div class="collapse navbar-collapse">
+                    <form class="form-inline my-2 my-lg-0">
+                        <input class="form-control mr-sm-2" type="search" placeholder="Search Member" aria-label="Search">
+                        <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search </button>
+                    </form>
+
+                </div>
+            </nav>
+        </div>
+
+        <div style="padding:15px">
+        <table class="table table-striped">
+            <thead>
+                <tr class="row">
+                    <th  class="col">Transaction ID</th>
+                    <th  class="col">Member ID</th>
+                    <th  class="col">Book ID</th>
+                    <th  class="col">Issue Date</th>
+                    <th  class="col">Return Date</th>
+                    <th  class="col">Fees</th>
+                    <th class="col">Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for transaction in transactions%}
+                <tr class="row">
+                  <td class="col">{{transaction.id}}</td>
+                  <td class="col">{{transaction.member_id}}</td>
+                  <td class="col">{{transaction.book_id}}</td>
+                  <td class="col">{{transaction.issue_date.strftime("%m-%d-%Y")}}</td>
+                  <td class="col">{{transaction.return_date.strftime("%m-%d-%Y")}}</td>
+                  <td class="col">{{transaction.fee}}</td>
+
+                  <td class="col">
+                      {% if transaction.book_status == True %}
+                      <a href={{url_for('transactions_bp.return_transaction',book_id=transaction.book_id, member_id=transaction.member_id)}}>
+                          <button class="btn btn-primary">Return</button>
+                      </a>
+
+                      <a href={{url_for('transactions_bp.edit_transaction',t_id=transaction.id)}}>
+                          <button class="btn btn-primary">Edit</button>
+                      </a>
+                      {% endif %}
+
+                      {% if transaction.book_status == False %}
+                        Returned
+                      {% endif %}
+                  </td>
+
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+     {% with messages = get_flashed_messages() %}
+        {% if messages %}
+            {% for message in messages %}
+                <div class="alert alert-success" role="alert">
+                    {{message}}
+                </div>
+            {% endfor %}
+        {% endif %}
+    {% endwith %}
+
+{% endblock %}

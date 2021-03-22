@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+{% block title %}BOOKS{% endblock %}
+{% block head %}
+{% endblock %}
+{% block content %}
+    {{super()}}
+    <div class="card">
+        <h5 class="card-header">ISSUE A BOOK</h5>
+         <div class="card-body">
+             <form method="POST">
+                {{ form.hidden_tag() }}
+                   <div class="form-group">
+                        <label>{{ form.member_id.label }}</label>
+                         {{ form.member_id(class="form-group")}}
+                   </div>
+                  <div class="form-group">
+                    <label>{{ form.book_id.label }}</label>
+                    {{ form.book_id(class="form-group") }}
+                  </div>
+
+                 <div class="form-group">
+                    <label>{{ form.issue_date.label }}</label>
+                      {{ form.issue_date(class="form-group")}}
+                 </div>
+
+                 <div class="form-group">
+                    <label>{{ form.return_date.label }}</label>
+                     {{ form.return_date(class="form-group") }}
+                 </div>
+
+                {{ form.submit(class="btn btn-primary") }}
+             </form>
+        </div>
+    </div>
+
+{% endblock %}

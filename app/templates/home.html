@@ -1,0 +1,55 @@
+{% extends "base.html" %}
+{% block title %}Home{% endblock %}
+{% block head %}
+{% endblock %}
+{% block content %}
+{{super()}}
+<div class="card border-primary mb-3" style="text-align:center">
+  <div class="card-header"><b>HIGHEST PAYING CUSTOMERS</b></div>
+</div>
+    <div style="padding:15px">
+        <table class="table table-striped">
+            <thead>
+                <tr class="row">
+                    <th scope="col" class="col">Name</th>
+                    <th scope="col" class="col">Member ID</th>
+                    <th scope="col" class="col">Fees</th>
+                </tr>
+            </thead>
+            <tbody>
+             {% for customer in hpc %}
+                <tr class="row">
+                  <th class="col">{{customer.name}}</th>
+                  <td class="col">{{customer.member_id}}</td>
+                  <td class="col">{{customer.SUM_1}}</td>
+                </tr>
+             {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+<div class="card border-primary mb-3" style="text-align:center">
+  <div class="card-header"><b>MOST POPULAR BOOKS</b></div>
+</div>
+
+    <div style="padding:15px">
+        <table class="table table-striped">
+            <thead>
+                <tr class="row">
+                    <th scope="col" class="col">Title</th>
+                    <th scope="col" class="col">Book ID</th>
+                    <th scope="col" class="col">Count</th>
+                </tr>
+            </thead>
+            <tbody>
+             {% for book in mpb %}
+                <tr class="row">
+                  <th class="col">{{book.title}}</th>
+                  <td class="col">{{book.book_id}}</td>
+                  <td class="col">{{book.CNT}}</td>
+                </tr>
+             {% endfor %}
+            </tbody>
+        </table>
+    </div>
+{% endblock %}

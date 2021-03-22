@@ -1,0 +1,46 @@
+{% extends "base.html" %}
+{% block title %}MEMBER{% endblock %}
+{% block head %}
+{% endblock %}
+{% block content %}
+    {{super()}}
+    <div class="card">
+        <h5 class="card-header">ADD A MEMBER</h5>
+         <div class="card-body">
+             <form method="POST">
+                {{ form.hidden_tag() }}
+               <div class="form-group">
+                    {{form.member_name.label}}
+                    {{form.member_name}}
+               </div>
+
+               <div class="form-group">
+                    {{form.contact_no.label}}
+                    {{form.contact_no}}
+               </div>
+
+               <div class="form-group">
+                    {{form.email.label}}
+                    {{form.email}}
+               </div>
+
+               <div class="form-group">
+                    {{form.dob.label}}
+                    {{form.dob}}
+               </div>
+
+                 {{form.submit(class="btn btn-primary")}}
+             </form>
+        </div>
+    </div>
+
+    {% with messages = get_flashed_messages() %}
+    {% if messages %}
+        {% for message in messages %}
+            <div class="alert alert-success" role="alert">
+                {{message}}
+            </div>
+        {% endfor %}
+    {% endif %}
+    {% endwith %}
+{% endblock %}
