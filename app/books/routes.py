@@ -24,10 +24,10 @@ def search(pattern, data):
     return result
 
 
-def fetch_api():
-    data = requests.get("https://frappe.io/api/method/frappe-library")
-    books = data.json()['message']
-    return books
+# def fetch_api():
+#     data = requests.get("https://frappe.io/api/method/frappe-library")
+#     books = data.json()['message']
+#     return books
 
 
 @books_bp.route("/search_results", methods=["GET", "POST"])
@@ -44,11 +44,11 @@ def result_show():
             return render_template("found.html")
 
 
-@books_bp.route("/books_api", methods=["GET", "POST"])
-def books_api():
-    books = fetch_api()
-
-    return render_template("books_api.html",books=books)
+# @books_bp.route("/books_api", methods=["GET", "POST"])
+# def books_api():
+#     books = fetch_api()
+#
+#     return render_template("books_api.html",books=books)
 
 
 @books_bp.route("/get_books", methods=["GET", "POST"])
