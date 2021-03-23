@@ -61,6 +61,7 @@ def edit_member(id):
             {Members.name: form.member_name.data, Members.contact: form.contact_no.data,
              Members.email: form.email.data, Members.dob: form.dob.data})
         db.session.commit()
+        flash("member details edited successfully")
         return redirect(url_for('members_bp.edit_member', id=member.id))
 
     form.member_name.default = member.name

@@ -4,52 +4,62 @@
 {% endblock %}
 {% block content %}
 {{super()}}
+
+{% if hpc and mpb%}
 <div class="card border-primary mb-3" style="text-align:center">
-  <div class="card-header"><b>HIGHEST PAYING CUSTOMERS</b></div>
+  <div class="card-header"><b>OUR HIGHEST PAYING CUSTOMER'S !</b></div>
 </div>
-    <div style="padding:15px">
-        <table class="table table-striped">
+
+        <table class="table table-striped" style="text-align:center">
             <thead>
-                <tr class="row">
-                    <th scope="col" class="col">Name</th>
+                <tr class="row" style="margin-left:0px;margin-right:0px">
                     <th scope="col" class="col">Member ID</th>
+                    <th scope="col" class="col">Name</th>
                     <th scope="col" class="col">Fees</th>
                 </tr>
             </thead>
             <tbody>
              {% for customer in hpc %}
-                <tr class="row">
-                  <th class="col">{{customer.name}}</th>
+                <tr class="row" style="margin-left:0px;margin-right:0px">
                   <td class="col">{{customer.member_id}}</td>
+                  <th class="col">{{customer.name}}</th>
                   <td class="col">{{customer.SUM_1}}</td>
                 </tr>
              {% endfor %}
             </tbody>
         </table>
-    </div>
+
 
 <div class="card border-primary mb-3" style="text-align:center">
-  <div class="card-header"><b>MOST POPULAR BOOKS</b></div>
+  <div class="card-header "><b>OUR MOST POPULAR BOOK'S !</b></div>
 </div>
 
-    <div style="padding:15px">
-        <table class="table table-striped">
+
+        <table class="table table-striped" style="text-align:center">
             <thead>
-                <tr class="row">
-                    <th scope="col" class="col">Title</th>
-                    <th scope="col" class="col">Book ID</th>
-                    <th scope="col" class="col">Count</th>
+                <tr class="row" style="margin-left:0px;margin-right:0px">
+                    <th class="col">Book ID</th>
+                    <th  class="col">Title</th>
+                    <th class="col">Total Qty</th>
+                    <th class="col">Available Qty</th>
                 </tr>
             </thead>
             <tbody>
              {% for book in mpb %}
-                <tr class="row">
-                  <th class="col">{{book.title}}</th>
+                <tr class="row" style="margin-left:0px;margin-right:0px">
                   <td class="col">{{book.book_id}}</td>
-                  <td class="col">{{book.CNT}}</td>
+                  <th class="col">{{book.title}}</th>
+                  <td class="col">{{book.total_qty}}</td>
+                  <td class="col">{{book.total_qty - book.issued_qty}}</td>
                 </tr>
              {% endfor %}
             </tbody>
         </table>
-    </div>
+{% endif %}
+
+{% if not hpc and not mpb %}
+
+<h1>No Data Found !</h1>
+{% endif %}
+
 {% endblock %}

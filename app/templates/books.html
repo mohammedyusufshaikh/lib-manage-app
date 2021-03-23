@@ -4,6 +4,18 @@
 {% endblock %}
 {% block content %}
     {{super()}}
+
+    {% with messages = get_flashed_messages() %}
+    {% if messages %}
+        {% for message in messages %}
+            <div class="alert alert-success" role="alert">
+                {{message}}
+            </div>
+        {% endfor %}
+    {% endif %}
+    {% endwith %}
+
+
     <div>
         <nav class="navbar navbar-expand-lg navbar-light bg-light">
 
@@ -23,13 +35,14 @@
         </div>
         </nav>
     </div>
+
+    {% if data %}
     <div style="padding:15px">
         <table class="table table-striped">
             <thead>
                 <tr class="row">
                     <th scope="col" class="col">Title</th>
                     <th scope="col" class="col">Author</th>
-                    <th scope="col" class="col">Last</th>
                     <th scope="col" class="col-1">Issue</th>
                     <th scope="col" class="col-1">Edit</th>
                     <th scope="col" class="col-1">Delete</th>
@@ -40,7 +53,6 @@
                 <tr class="row">
                   <th class="col">{{book.title}}</th>
                   <td class="col">{{book.author}}</td>
-                  <td class="col"></td>
                   <td class="col-1"><a href={{url_for('transactions_bp.add_transaction',id=book.id)}}><button class="btn btn-primary">Issue</button></a></td>
                   <td class="col-1"><a href={{url_for('books_bp.edit_book',id=book.id)}}><button class="btn btn-success">Edit</button></a></td>
                   <td class="col-1"><a href={{url_for('books_bp.delete_book',id=book.id)}}><button type="button" class="btn btn-danger">
@@ -51,5 +63,10 @@
             </tbody>
         </table>
     </div>
+    {% endif %}
+
+    {% if not data %}
+    <h1>No books found !</h1>
+    {% endif %}
 
 {% endblock %}

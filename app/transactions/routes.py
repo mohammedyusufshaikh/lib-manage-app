@@ -16,14 +16,17 @@ def add_transaction(id):
     book = Books.query.get_or_404(id)
 
     if form.is_submitted():
-        total_qty = book.total_qty - 1
-        issued_qty = book.issued_qty + 1
-        print(form.member_id.data)
-        data = Transactions(member_id=form.member_id.data, book_id=form.book_id.data,
-                            issue_date=form.issue_date.data, return_date=form.return_date.data, book_status=True)
-        Books.query.filter_by(id=id).update({Books.total_qty: total_qty, Books.issued_qty: issued_qty})
-        db.session.add(data)
-        db.session.commit()
+        if (book.total_qty - book.issued_qty) > 1:
+            issued_qty = book.issued_qty + 1
+            print(form.member_id.data)
+            data = Transactions(member_id=form.member_id.data, book_id=form.book_id.data,
+                                issue_date=form.issue_date.data, return_date=form.return_date.data, book_status=True)
+            Books.query.filter_by(id=id).update({Books.issued_qty: issued_qty})
+            db.session.add(data)
+            db.session.commit()
+            flash("Book issued successfully !")
+        else:
+            flash("Sorry! book cannot be issued due to low stock !")
     form.book_id.default = book.id
     form.process()
     return render_template("add_transaction.html", form=form)
@@ -68,9 +71,8 @@ def filter_transaction():
 @transactions_bp.route("/return_transaction/<int:book_id>/<int:member_id>", methods=["GET", "POST"])
 def return_transaction(book_id, member_id):
     book = Books.query.get_or_404(book_id)
-    total_qty = book.total_qty + 1
     issued_qty = book.issued_qty - 1
-    Books.query.filter_by(id=book_id).update({Books.total_qty: total_qty, Books.issued_qty: issued_qty})
+    Books.query.filter_by(id=book_id).update({Books.issued_qty: issued_qty})
     transaction = Transactions.query.filter_by(member_id=member_id, book_id=book_id).first()
     no_of_days = transaction.return_date - transaction.issue_date
     if no_of_days.days <= 7:

@@ -38,6 +38,7 @@ def result_show():
         books = Books.query.all()
         result = search(pattern, books)
         if result:
+            flash("Books Found !")
             return render_template("found.html", result=result)
         else:
             flash("Sorry! No such book found")
@@ -90,6 +91,7 @@ def edit_book(id):
                                                  form.language.data})
 
         db.session.commit()
+        flash("book description edited successfully !")
         return redirect(url_for('books_bp.edit_book', id=book.id))
 
     form.book_title.default = book.title

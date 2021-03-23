@@ -4,6 +4,17 @@
 {% endblock %}
 {% block content %}
     {{super()}}
+
+    {% with messages = get_flashed_messages() %}
+    {% if messages %}
+        {% for message in messages %}
+            <div class="alert alert-success" role="alert">
+                {{message}}
+            </div>
+        {% endfor %}
+    {% endif %}
+    {% endwith %}
+
         <div>
             <nav class="navbar navbar-expand-lg navbar-light bg-light">
                 <div class="collapse navbar-collapse">
@@ -22,7 +33,9 @@
             </nav>
         </div>
 
-        <div style="padding:15px">
+
+{% if data %}
+<div style="padding:15px">
         <table class="table table-striped">
             <thead>
                 <tr class="row">
@@ -52,4 +65,9 @@
             </tbody>
         </table>
     </div>
+{% endif %}
+
+{% if not data %}
+<h1>No Members Found !</h1>
+{% endif %}
 {% endblock %}

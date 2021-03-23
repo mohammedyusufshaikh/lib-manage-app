@@ -19,8 +19,8 @@ def home():
         text('''select member_id,name,sum(fee) as SUM_1 from transactions as t,
         members as m where book_status=0 and t.member_id=m.id group by member_id order by SUM_1 desc;''')).all()
 
-    most_popular_book = db.session.query('title', 'book_id', 'CNT').from_statement(
-        text(''' select title,book_id,count(book_id) as CNT from transactions as t,books as b where t.book_id=b.id 
+    most_popular_book = db.session.query('title', 'book_id', 'CNT', 'total_qty', 'issued_qty').from_statement(
+        text(''' select total_qty,issued_qty,title,book_id,count(book_id) as CNT from transactions as t,books as b where t.book_id=b.id 
          group by book_id order by CNT desc;''')).all()
 
     return render_template("home.html", hpc=highest_paying_customer, mpb=most_popular_book)
