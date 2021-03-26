@@ -4,6 +4,17 @@
 {% endblock %}
 {% block content %}
 {{super()}}
+{% with messages = get_flashed_messages() %}
+    {% if messages %}
+        {% for message in messages %}
+            <div class="alert alert-success" role="alert">
+                {{message}}
+            </div>
+        {% endfor %}
+    {% endif %}
+{% endwith %}
+
+
 {% if result %}
 <div style="padding:15px">
         <table class="table table-striped">
@@ -37,13 +48,5 @@
     </div>
 {% endif %}
 
-{% with messages = get_flashed_messages() %}
-    {% if messages %}
-        {% for message in messages %}
-            <div class="alert alert-success" role="alert">
-                {{message}}
-            </div>
-        {% endfor %}
-    {% endif %}
-{% endwith %}
+
 {% endblock %}

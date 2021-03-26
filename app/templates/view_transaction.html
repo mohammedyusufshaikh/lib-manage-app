@@ -4,17 +4,28 @@
 {% endblock %}
 {% block content %}
     {{super()}}
-        <div>
-            <nav class="navbar navbar-expand-lg navbar-light bg-light">
-                <div class="collapse navbar-collapse">
-                    <form class="form-inline my-2 my-lg-0">
-                        <input class="form-control mr-sm-2" type="search" placeholder="Search Member" aria-label="Search">
-                        <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search </button>
-                    </form>
+<!--        <div>-->
+<!--            <nav class="navbar navbar-expand-lg navbar-light bg-light">-->
+<!--                <div class="collapse navbar-collapse">-->
+<!--                    <form class="form-inline my-2 my-lg-0">-->
+<!--                        <input class="form-control mr-sm-2" type="search" placeholder="Search Member" aria-label="Search">-->
+<!--                        <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search </button>-->
+<!--                    </form>-->
 
+<!--                </div>-->
+<!--            </nav>-->
+<!--        </div>-->
+
+        {% with messages = get_flashed_messages() %}
+        {% if messages %}
+            {% for message in messages %}
+                <div class="alert alert-success" role="alert">
+                    {{message}}
                 </div>
-            </nav>
-        </div>
+            {% endfor %}
+        {% endif %}
+        {% endwith %}
+
 
         <div style="padding:15px">
         <table class="table table-striped">
@@ -35,8 +46,8 @@
                   <td class="col">{{transaction.id}}</td>
                   <td class="col">{{transaction.member_id}}</td>
                   <td class="col">{{transaction.book_id}}</td>
-                  <td class="col">{{transaction.issue_date.strftime("%m-%d-%Y")}}</td>
-                  <td class="col">{{transaction.return_date.strftime("%m-%d-%Y")}}</td>
+                  <td class="col">{{transaction.issue_date.strftime("%d-%m-%Y")}}</td>
+                  <td class="col">{{transaction.return_date.strftime("%d-%m-%Y")}}</td>
                   <td class="col">{{transaction.fee}}</td>
 
                   <td class="col">
@@ -61,14 +72,5 @@
         </table>
     </div>
 
-     {% with messages = get_flashed_messages() %}
-        {% if messages %}
-            {% for message in messages %}
-                <div class="alert alert-success" role="alert">
-                    {{message}}
-                </div>
-            {% endfor %}
-        {% endif %}
-    {% endwith %}
 
 {% endblock %}

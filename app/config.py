@@ -3,5 +3,5 @@ class Config:
     # SQLALCHEMY_DATABASE_URI = 'mysql://c0mrade:Pass@6689@c0mrade.mysql.pythonanywhere-services.com/c0mrade$library'
     SQLALCHEMY_TRACK_MODIFICATIONS = False
     SQLALCHEMY_DATABASE_URI = 'mysql://root:root@localhost/library'
-
+    # SQLALCHEMY_DATABASE_URI = 'mysql://root:root@localhost/test_library'
 

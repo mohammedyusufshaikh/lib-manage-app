@@ -1,5 +1,5 @@
 from flask_sqlalchemy import SQLAlchemy
-from datetime import datetime
+from datetime import datetime, date
 import pymysql
 
 pymysql.install_as_MySQLdb()
@@ -40,8 +40,8 @@ class Transactions(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     member_id = db.Column(db.Integer, db.ForeignKey('members.id',ondelete="CASCADE"))
     book_id = db.Column(db.Integer, db.ForeignKey('books.id',ondelete="CASCADE"))
-    issue_date = db.Column(db.DateTime, default=datetime.now())
-    return_date = db.Column(db.DateTime)
+    issue_date = db.Column(db.Date, default=date.today())
+    return_date = db.Column(db.Date)
     book_status = db.Column(db.Boolean, default=False)
     fee = db.Column(db.Integer, default=0)
     transactions = db.relationship("Books", back_populates="children")

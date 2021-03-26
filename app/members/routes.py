@@ -26,6 +26,7 @@ def search_member():
         members = Members.query.all()
         result = search(pattern, members)
         if result:
+            flash("Member Found !")
             return render_template("found_member.html", result=result)
         else:
             flash("Sorry! No such member found")
