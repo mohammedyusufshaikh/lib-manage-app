@@ -1,0 +1,67 @@
+{% extends "base.html" %}
+{% block title %}MEMBER{% endblock %}
+{% block head %}
+{% endblock %}
+{% block content %}
+    {{super()}}
+
+    {% with messages = get_flashed_messages() %}
+    {% if messages %}
+        {% for message in messages %}
+            <div class="alert alert-success" role="alert">
+                {{message}}
+            </div>
+        {% endfor %}
+    {% endif %}
+    {% endwith %}
+
+
+<div class="card w-50" style="margin-left:25%;margin-top:1%">
+  <h5 class="card-header">Details</h5>
+  <div class="card-body">
+      <div class="row">
+          <div class="col">
+              <label>
+                  Name
+              </label>
+
+              <label class="form-control">{{member.name}}</label>
+          </div>
+          <div class="col">
+              <label>Contact</label>
+              <label class="form-control">{{member.contact}}</label>
+          </div>
+          <div class="col">
+              <label>Email</label>
+              <label class="form-control">{{member.email}}</label>
+          </div>
+      </div>
+
+      <div class="row">
+          <div class="col">
+               <label>DOB</label>
+                <label class="form-control">{{member.dob}}</label>
+          </div>
+          <div class="col">
+              <label>ID</label>
+              <label class="form-control">{{member.id}}</label>
+          </div>
+
+          <div class="col">
+
+          </div>
+      </div>
+
+      <div class="row">
+          <div class="col">
+              <a href={{url_for('transactions_bp.view_transaction',id=member.id)}}><button class="btn btn-primary">View</button></a>
+              <a href={{url_for('members_bp.edit_member',id=member.id)}}><button class="btn btn-success">Edit</button></a>
+              <a href={{url_for('members_bp.delete_member',id=member.id)}}><button class="btn btn-danger">Delete</button></a>
+          </div>
+      </div>
+
+
+  </div>
+</div>
+
+{% endblock %}

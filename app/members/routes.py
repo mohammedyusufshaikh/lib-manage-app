@@ -12,8 +12,7 @@ def search(pattern, data):
     for member in data:
         temp_1 = re.search(pattern, str(member.id))
         temp_2 = re.search(pattern, member.name)
-        temp_3 = re.search(pattern, str(member.contact))
-        if temp_1 or temp_2 or temp_3:
+        if temp_1 or temp_2:
             result.append(member)
     return result
 
@@ -70,7 +69,7 @@ def edit_member(id):
     form.email.default = member.email
     form.dob.default = member.dob
     form.process()
-    return render_template("add_member.html", form=form, member=member)
+    return render_template("edit_member.html", form=form, member=member)
 
 
 @members_bp.route("/delete_member/<int:id>", methods=["GET", "POST"])
@@ -80,3 +79,9 @@ def delete_member(id):
     db.session.commit()
     flash("Member deleted Successfully !")
     return redirect(url_for('members_bp.get_members'))
+
+
+@members_bp.route("/get_member/<int:id>", methods=["GET", "POST"])
+def get_member(id):
+    member = Members.query.get_or_404(id)
+    return render_template("member_detail.html", member=member)

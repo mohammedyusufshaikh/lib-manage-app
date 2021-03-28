@@ -16,36 +16,30 @@
 
 
 {% if result %}
-<div style="padding:15px">
-        <table class="table table-striped">
+<div class="card w-50" style="margin-left:25%;margin-top:1%">
+  <h5 class="card-header">MEMBER</h5>
+  <div class="card-body">
+          <table class="table table-striped">
             <thead>
-                <tr class="row">
-                    <th scope="col" class="col">Member ID</th>
-                    <th scope="col" class="col">Name</th>
-                    <th scope="col" class="col">Contact</th>
-                    <th scope="col" class="col">Email</th>
-                    <th scope="col" class="col">DOB</th>
-                    <th scope="col" class="col-1">View</th>
-                    <th scope="col" class="col-1">Edit</th>
-                    <th scope="col" class="col-1">Delete</th>
+                <tr>
+                    <th>Member ID</th>
+                    <th>Name</th>
+                    <th>Contact</th>
                 </tr>
             </thead>
             <tbody>
                 {% for member in result %}
-                <tr class="row">
-                  <th class="col">{{member.id}}</th>
-                  <th class="col">{{member.name}}</th>
-                  <td class="col">{{member.contact}}</td>
-                  <td class="col">{{member.email}}</td>
-                  <td class="col">{{member.dob}}</td>
-                  <td class="col-1"><a href={{url_for('transactions_bp.view_transaction',id=member.id)}}><button class="btn btn-primary">View</button></a></td>
-                  <td class="col-1"><a href={{url_for('members_bp.edit_member',id=member.id)}}><button class="btn btn-success">Edit</button></a></td>
-                  <td class="col-1"><a href={{url_for('members_bp.delete_member',id=member.id)}}><button class="btn btn-danger">Delete</button></a></td>
+                <tr>
+                  <td>{{member.id}}</td>
+                  <th><a href="{{url_for('members_bp.get_member',id=member.id)}}">{{member.name}}</a></th>
+                  <td>{{member.contact}}</td>
                 </tr>
                 {% endfor %}
             </tbody>
         </table>
-    </div>
+  </div>
+</div>
+
 {% endif %}
 
 

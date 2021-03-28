@@ -5,22 +5,15 @@
 {% block content %}
     {{super()}}
 
-
-
         <div>
             <nav class="navbar navbar-expand-lg navbar-light bg-light">
                 <div class="collapse navbar-collapse">
 
                     <ul class="navbar-nav mr-auto">
                         <li class="nav-item active">
-                            <a class="btn  btn-primary" href={{url_for('transactions_bp.get_defaulters')}} role="button">GET DEFAULTERS</a>
+                            <a class="btn  btn-primary" href={{url_for('transactions_bp.get_defaulters')}} role="button">Get Defaulters</a>
                         </li>
                     </ul>
-
-<!--                    <form class="form-inline my-2 my-lg-0">-->
-<!--                        <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">-->
-<!--                        <button class="btn btn-primary my-2 my-sm-0" type="submit">Search </button>-->
-<!--                    </form>-->
 
                 </div>
             </nav>
@@ -37,64 +30,52 @@
         {% endwith %}
 
         {% if transactions %}
-        <div style="padding:15px">
-        <table class="table table-striped">
+        <div class="card w-75" style="margin-left:12.5%;margin-top:1%">
+          <h5 class="card-header">Transactions</h5>
+          <div class="card-body">
+            <table class="table table-striped">
             <thead>
-                <tr class="row">
-                    <th  class="col">Transaction ID</th>
-                    <th  class="col">Member ID</th>
-                    <th  class="col">Book ID</th>
-                    <th  class="col">Issue Date</th>
-                    <th  class="col">Return Date</th>
-                    <th  class="col">Fees</th>
-                     <th  class="col">Status</th>
+                <tr>
+                    <th>Transaction ID</th>
+                    <th>Member ID</th>
+                    <th>Book ID</th>
+                    <th>Issue Date</th>
+                    <th>Return Date</th>
+                    <th>Fees</th>
+                     <th>Status</th>
 <!--                    <th class="col">Actions</th>-->
                 </tr>
             </thead>
             <tbody>
                 {% for transaction in transactions%}
-                <tr class="row">
-                  <td class="col">{{transaction.id}}</td>
-                  <td class="col">{{transaction.member_id}}</td>
-                  <td class="col">{{transaction.book_id}}</td>
-                  <td class="col">{{transaction.issue_date.strftime("%d-%m-%Y")}}</td>
-                  <td class="col">{{transaction.return_date.strftime("%d-%m-%Y")}}</td>
+                <tr>
+                  <td>{{transaction.id}}</td>
+                  <td>{{transaction.member_id}}</td>
+                  <td>{{transaction.book_id}}</td>
+                  <td>{{transaction.issue_date.strftime("%d-%m-%Y")}}</td>
+                  <td >{{transaction.return_date.strftime("%d-%m-%Y")}}</td>
                   {% if transaction.fee >= 500 and transaction.book_status%}
-                  <td class="col">{{transaction.fee}}</td>
-                    <td class="col"><span class="badge badge-danger">Warn</span></td>
+                  <td>{{transaction.fee}}</td>
+                    <td><span class="badge badge-danger">Warn</span></td>
                   {% endif %}
 
                    {% if transaction.book_status==False %}
-                  <td class="col">{{transaction.fee}}</td>
-                    <td class="col"><span class="badge badge-success">Paid</span></td>
+                  <td>{{transaction.fee}}</td>
+                    <td><span class="badge badge-success">Paid</span></td>
                   {% endif %}
 
                    {% if transaction.fee < 500 and transaction.book_status %}
-                  <td class="col">{{transaction.fee}}</td>
-                    <td class="col"><span class="badge badge-warning">Due</span></td>
+                  <td>{{transaction.fee}}</td>
+                    <td><span class="badge badge-warning">Due</span></td>
                   {% endif %}
-
-<!--                  <td class="col">-->
-<!--                      {% if transaction.book_status == True %}-->
-<!--                      <a href={{url_for('transactions_bp.return_transaction',book_id=transaction.book_id, member_id=transaction.member_id)}}>-->
-<!--                          <button class="btn btn-primary">Return</button>-->
-<!--                      </a>-->
-
-<!--                      <a href={{url_for('transactions_bp.edit_transaction',t_id=transaction.id)}}>-->
-<!--                          <button class="btn btn-primary">Edit</button>-->
-<!--                      </a>-->
-<!--                      {% endif %}-->
-
-<!--                      {% if transaction.book_status == False %}-->
-<!--                        Returned-->
-<!--                      {% endif %}-->
-<!--                  </td>-->
 
                 </tr>
                 {% endfor %}
             </tbody>
         </table>
-    </div>
+          </div>
+        </div>
+
         {% endif %}
 
 

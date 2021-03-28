@@ -33,8 +33,10 @@ def home():
     for each_month in earning_per_month:
         values.insert(each_month[0] - 1, each_month[1])
 
+    max_value = max(values)
+
     return render_template("home.html", hpc=highest_paying_customer, mpb=most_popular_book,
-                           max=5000, labels=labels, values=values)
+                           max=max_value, labels=labels, values=values)
 
 
 @home_bp.route('/get_report', methods=["GET", "POST"])

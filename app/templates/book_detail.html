@@ -1,0 +1,82 @@
+{% extends "base.html" %}
+{% block title %}BOOKS{% endblock %}
+{% block head %}
+{% endblock %}
+{% block content %}
+    {{super()}}
+
+    {% with messages = get_flashed_messages() %}
+    {% if messages %}
+        {% for message in messages %}
+            <div class="alert alert-success" role="alert">
+                {{message}}
+            </div>
+        {% endfor %}
+    {% endif %}
+    {% endwith %}
+
+
+<div class="card w-50" style="margin-left:25%;margin-top:1%;">
+  <h5 class="card-header">Details</h5>
+  <div class="card-body">
+      <div class="row">
+          <div class="col">
+              <label>
+                  Title
+              </label>
+
+              <label class="form-control">{{book.title}}</label>
+          </div>
+          <div class="col">
+              <label>Author</label>
+              <label class="form-control">{{book.author}}</label>
+          </div>
+          <div class="col">
+              <label>Author</label>
+              <label class="form-control">{{book.isbn}}</label>
+          </div>
+      </div>
+
+      <div class="row">
+          <div class="col">
+               <label>Publisher</label>
+                <label class="form-control">{{book.publisher}}</label>
+          </div>
+          <div class="col">
+              <label>Publication Date</label>
+              <label class="form-control">{{book.publication_date}}</label>
+          </div>
+
+          <div class="col">
+              <label>Pages</label>
+              <label class="form-control">{{book.pages}}</label>
+          </div>
+      </div>
+
+      <div class="row">
+          <div class="col">
+              <label>Language</label>
+              <label class="form-control">{{book.language}}</label>
+          </div>
+          <div class="col">
+              <label>Total Qty</label>
+              <label class="form-control">{{book.total_qty}}</label>
+              </div>
+          <div class="col">
+              <label>Issued Qty</label>
+              <label class="form-control">{{book.issued_qty}}</label>
+          </div>
+      </div>
+
+      <div class="row">
+          <div class="col">
+               <a href={{url_for('transactions_bp.add_transaction',id=book.id)}}><button class="btn btn-primary">Issue</button></a>
+               <a href={{url_for('books_bp.edit_book',id=book.id)}}><button class="btn btn-success">Edit</button></a>
+               <a href={{url_for('books_bp.delete_book',id=book.id)}}><button type="button" class="btn btn-danger">Delete</button></a>
+          </div>
+
+      </div>
+  </div>
+</div>
+
+{% endblock %}

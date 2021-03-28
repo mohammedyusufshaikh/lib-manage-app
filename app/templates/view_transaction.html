@@ -4,17 +4,6 @@
 {% endblock %}
 {% block content %}
     {{super()}}
-<!--        <div>-->
-<!--            <nav class="navbar navbar-expand-lg navbar-light bg-light">-->
-<!--                <div class="collapse navbar-collapse">-->
-<!--                    <form class="form-inline my-2 my-lg-0">-->
-<!--                        <input class="form-control mr-sm-2" type="search" placeholder="Search Member" aria-label="Search">-->
-<!--                        <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search </button>-->
-<!--                    </form>-->
-
-<!--                </div>-->
-<!--            </nav>-->
-<!--        </div>-->
 
         {% with messages = get_flashed_messages() %}
         {% if messages %}
@@ -26,31 +15,33 @@
         {% endif %}
         {% endwith %}
 
-
-        <div style="padding:15px">
-        <table class="table table-striped">
+        {% if transactions %}
+        <div class="card w-75" style="margin-left:12.5%;margin-top:1%">
+          <h5 class="card-header">Transactions</h5>
+          <div class="card-body">
+                <table class="table table-striped">
             <thead>
-                <tr class="row">
-                    <th  class="col">Transaction ID</th>
-                    <th  class="col">Member ID</th>
-                    <th  class="col">Book ID</th>
-                    <th  class="col">Issue Date</th>
-                    <th  class="col">Return Date</th>
-                    <th  class="col">Fees</th>
-                    <th class="col">Actions</th>
+                <tr>
+                    <th>Transaction ID</th>
+                    <th>Member ID</th>
+                    <th>Book ID</th>
+                    <th>Issue Date</th>
+                    <th>Return Date</th>
+                    <th>Fees</th>
+                    <th>Actions</th>
                 </tr>
             </thead>
             <tbody>
                 {% for transaction in transactions%}
-                <tr class="row">
-                  <td class="col">{{transaction.id}}</td>
-                  <td class="col">{{transaction.member_id}}</td>
-                  <td class="col">{{transaction.book_id}}</td>
-                  <td class="col">{{transaction.issue_date.strftime("%d-%m-%Y")}}</td>
-                  <td class="col">{{transaction.return_date.strftime("%d-%m-%Y")}}</td>
-                  <td class="col">{{transaction.fee}}</td>
+                <tr>
+                  <td>{{transaction.id}}</td>
+                  <td>{{transaction.member_id}}</td>
+                  <td>{{transaction.book_id}}</td>
+                  <td>{{transaction.issue_date.strftime("%d-%m-%Y")}}</td>
+                  <td>{{transaction.return_date.strftime("%d-%m-%Y")}}</td>
+                  <td>{{transaction.fee}}</td>
 
-                  <td class="col">
+                  <td>
                       {% if transaction.book_status == True %}
                       <a href={{url_for('transactions_bp.return_transaction',book_id=transaction.book_id, member_id=transaction.member_id)}}>
                           <button class="btn btn-primary">Return</button>
@@ -70,7 +61,12 @@
                 {% endfor %}
             </tbody>
         </table>
-    </div>
+          </div>
+        </div>
+        {% endif %}
 
+        {% if not transactions %}
+            <h1>No transactions found !</h1>
+        {% endif %}
 
 {% endblock %}

@@ -29,8 +29,28 @@ class FlaskClientTestCase(unittest.TestCase):
         response = self.client.get('/get_books')
         self.assertEqual(response.status_code, 200)
 
-    def test_redirects(self):
-        response = self.client.get('/add_book')
+        response = self.client.post('/search_results')
+        self.assertEqual(response.status_code, 200)
+
+    def test_add(self):
+        response = self.client.post('/add_member', data={
+            'name': 'Martin',
+            'contact': '9763525',
+            'email': 'test@gmail.com',
+            'dob': '28-10-1997'
+        })
+        self.assertEqual(response.status_code, 200)
+
+        response = self.client.post('/add_book', data={
+            'title': 'Martins Bio',
+            'author': 'John',
+            'isbn': '135416544',
+            'publisher': 'Mc graw hill',
+            'publication_date': '28-10-1997',
+            'pages': '300',
+            'language': 'English',
+            'total_qty': '35'
+        })
         self.assertEqual(response.status_code, 200)
 
 

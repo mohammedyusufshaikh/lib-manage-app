@@ -22,7 +22,7 @@
         <div class="collapse navbar-collapse">
             <ul class="navbar-nav mr-auto">
                 <li class="nav-item active">
-                    <a class="btn btn-primary" href={{url_for('books_bp.add_book')}} role="button">ADD BOOK</a>
+                    <a class="btn btn-primary" href={{url_for('books_bp.add_book')}} role="button">Add Book</a>
                 </li>
 
             </ul>
@@ -36,33 +36,33 @@
         </nav>
     </div>
 
+
     {% if data %}
-    <div style="padding:15px">
-        <table class="table table-striped">
+    <div class="card w-50" style="margin-left: 25%;margin-top: 1%;">
+        <h5 class="card-header">Books</h5>
+      <div class="card-body">
+        <table class="table">
             <thead>
-                <tr class="row">
-                    <th scope="col" class="col">Title</th>
-                    <th scope="col" class="col">Author</th>
-                    <th scope="col" class="col-1">Issue</th>
-                    <th scope="col" class="col-1">Edit</th>
-                    <th scope="col" class="col-1">Delete</th>
+                <tr>
+                    <th>Title</th>
+                    <th>Author</th>
+                    <th>Publisher</th>
                 </tr>
             </thead>
-            <tbody>
+
+             <tbody>
              {% for book in data %}
-                <tr class="row">
-                  <th class="col">{{book.title}}</th>
-                  <td class="col">{{book.author}}</td>
-                  <td class="col-1"><a href={{url_for('transactions_bp.add_transaction',id=book.id)}}><button class="btn btn-primary">Issue</button></a></td>
-                  <td class="col-1"><a href={{url_for('books_bp.edit_book',id=book.id)}}><button class="btn btn-success">Edit</button></a></td>
-                  <td class="col-1"><a href={{url_for('books_bp.delete_book',id=book.id)}}><button type="button" class="btn btn-danger">
-                      Delete
-                  </button></a></td>
+                <tr>
+                  <th><a href="{{url_for('books_bp.get_book',id=book.id)}}">{{book.title}}</a></th>
+                  <td>{{book.author}}</td>
+                  <td>{{book.publisher}}</td>
                 </tr>
              {% endfor %}
             </tbody>
         </table>
+      </div>
     </div>
+
     {% endif %}
 
     {% if not data %}

@@ -15,32 +15,48 @@
     {% endif %}
     {% endwith %}
 
-    <div class="card">
+    <div class="card w-50" style="margin-left:25%;margin-top:1%;">
         <h5 class="card-header">ADD A MEMBER</h5>
          <div class="card-body">
              <form method="POST">
                 {{ form.hidden_tag() }}
-               <div class="form-group">
-                    {{form.member_name.label}}
-                    {{form.member_name(class="form-control")}}
-               </div>
 
-               <div class="form-group">
-                    {{form.contact_no.label}}
-                    {{form.contact_no(class="form-control")}}
-               </div>
+                 <div class="row mt-3">
+                     <div class="col">
+                           {{form.member_name.label}}
+                           {{form.member_name(class="form-control")}}
+                     </div>
 
-               <div class="form-group">
-                    {{form.email.label}}
-                    {{form.email(class="form-control")}}
-               </div>
+                     <div class="col">
+                           {{form.contact_no.label}}
+                           {{form.contact_no(class="form-control")}}
+                     </div>
 
-               <div class="form-group">
-                    {{form.dob.label}}
-                    {{form.dob(class="form-control")}}
-               </div>
+                     <div class="col">
+                          {{form.email.label}}
+                          {{form.email(class="form-control")}}
+                     </div>
+                 </div>
 
-                 {{form.submit(class="btn btn-primary")}}
+                 <div class="row mt-3">
+
+                     <div class="col">
+                          {{form.dob.label}}
+                          {{form.dob(class="form-control")}}
+                     </div>
+
+                     <div class="col"></div>
+
+                      <div class="col"></div>
+                 </div>
+
+
+                 <div class="row mt-3">
+                     <div class="col">
+                          {{form.submit(class="btn btn-primary")}}
+                     </div>
+                 </div>
+
              </form>
         </div>
     </div>

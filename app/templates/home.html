@@ -12,7 +12,7 @@
             <div class="collapse navbar-collapse">
                 <ul class="navbar-nav mr-auto">
                     <li class="nav-item active">
-                        <a class="btn btn-primary" href={{url_for('home_bp.get_report')}} role="button">GET REPORT</a>
+                        <a class="btn btn-primary" href={{url_for('home_bp.get_report')}} role="button">Get Report</a>
                     </li>
 
                 </ul>
@@ -29,7 +29,7 @@
   <div class="card-header"><b>OUR HIGHEST PAYING CUSTOMER'S !</b></div>
 </div>
 
-        <table class="table table-striped table-dark" style="text-align:center">
+        <table class="table table-striped" style="text-align:center">
             <thead>
                 <tr  style="margin-left:0px;margin-right:0px">
                     <td>Member ID</td>
@@ -50,12 +50,41 @@
     </div>
     <div class="col">
         <div class="card bg-primary text-white mt-3" style="text-align:center">
+            <div class="card-header "><b>OUR MOST POPULAR BOOK'S !</b></div>
+        </div>
+
+
+        <table class="table table-striped" style="text-align:center">
+            <thead>
+                <tr  style="margin-left:0px;margin-right:0px">
+                    <td >Book ID</td>
+                    <td  >Title</td>
+                    <td>Total Qty</td>
+                    <td >Available Qty</td>
+                </tr>
+            </thead>
+            <tbody>
+             {% for book in mpb %}
+                <tr  style="margin-left:0px;margin-right:0px">
+                  <td>{{book.book_id}}</td>
+                  <td >{{book.title}}</td>
+                  <td >{{book.total_qty}}</td>
+                  <td >{{book.total_qty - book.issued_qty}}</td>
+                </tr>
+             {% endfor %}
+            </tbody>
+        </table>
+    </div>
+  </div>
+    <div class="row">
+    <div class="col">
+        <div class="card bg-primary text-white mt-3" style="text-align:center">
             <div class="card-header "><b>EARNING PER MONTH</b></div>
         </div>
 
 <div>
     <center>
-        <canvas id="chart" width="500" height="300"></canvas>
+        <canvas id="chart" width="450" height="300"></canvas>
 
          <script>
       // bar chart data
@@ -105,47 +134,12 @@
 
 </div>
     </div>
-  </div>
-    <div class="row">
-    <div class="col">
-        <div class="card bg-primary text-white mt-3" style="text-align:center">
-            <div class="card-header "><b>OUR MOST POPULAR BOOK'S !</b></div>
-        </div>
-
-
-        <table class="table table-striped table-dark" style="text-align:center">
-            <thead>
-                <tr  style="margin-left:0px;margin-right:0px">
-                    <td >Book ID</td>
-                    <td  >Title</td>
-                    <td>Total Qty</td>
-                    <td >Available Qty</td>
-                </tr>
-            </thead>
-            <tbody>
-             {% for book in mpb %}
-                <tr  style="margin-left:0px;margin-right:0px">
-                  <td>{{book.book_id}}</td>
-                  <td >{{book.title}}</td>
-                  <td >{{book.total_qty}}</td>
-                  <td >{{book.total_qty - book.issued_qty}}</td>
-                </tr>
-             {% endfor %}
-            </tbody>
-        </table>
-    </div>
     <div class="col"></div>
   </div>
 </div>
 
 
-
-
-
-
-
 {% endif %}
-
 
 
 {% if not hpc and not mpb %}
