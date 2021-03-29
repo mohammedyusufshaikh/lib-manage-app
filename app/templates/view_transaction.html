@@ -17,7 +17,7 @@
 
         {% if transactions %}
         <div class="card w-75" style="margin-left:12.5%;margin-top:1%">
-          <h5 class="card-header">Transactions</h5>
+          <h5 class="card-header">{{member.name}}'s Transactions</h5>
           <div class="card-body">
                 <table class="table table-striped">
             <thead>
@@ -66,7 +66,9 @@
         {% endif %}
 
         {% if not transactions %}
-            <h1>No transactions found !</h1>
+                <div class="alert alert-danger" role="alert">
+                    No Transactions found !
+                </div>
         {% endif %}
 
 {% endblock %}

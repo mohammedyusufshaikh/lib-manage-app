@@ -50,7 +50,7 @@
                 {% for transaction in transactions%}
                 <tr>
                   <td>{{transaction.id}}</td>
-                  <td>{{transaction.member_id}}</td>
+                  <td><a href="{{url_for('members_bp.get_member',id=transaction.member_id)}}">{{transaction.member_id}}</a></td>
                   <td>{{transaction.book_id}}</td>
                   <td>{{transaction.issue_date.strftime("%d-%m-%Y")}}</td>
                   <td >{{transaction.return_date.strftime("%d-%m-%Y")}}</td>

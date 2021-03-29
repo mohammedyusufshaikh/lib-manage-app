@@ -3,7 +3,7 @@ from sqlalchemy.sql import func
 from app.transactions.forms import TransactionForm
 from app.models import Transactions, Books, Members
 from app.models import db
-from datetime import datetime
+from datetime import date
 from sqlalchemy import desc, text
 
 transactions_bp = Blueprint("transactions_bp", __name__)
@@ -41,7 +41,8 @@ def add_transaction(id):
 @transactions_bp.route("/view_transaction/<int:id>", methods=["GET", "POST"])
 def view_transaction(id):
     transactions = Transactions.query.filter_by(member_id=id).all()
-    return render_template("view_transaction.html", transactions=transactions)
+    member = Members.query.filter_by(id=id).first()
+    return render_template("view_transaction.html", transactions=transactions,member=member)
 
 
 @transactions_bp.route("/transactions", methods=["GET", "POST"])
@@ -52,7 +53,7 @@ def all_transactions():
 
 @transactions_bp.route("/get_defaulters", methods=["GET", "POST"])
 def get_defaulters():
-    curr_dt = datetime.now()
+    curr_dt = date.today()
     final_list = []
     # result = db.session.query('id').filter(Transactions.return_date < curr_dt, Transactions.book_status == True).all()
     result = db.session.query('id').from_statement(
