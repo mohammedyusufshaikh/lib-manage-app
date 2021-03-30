@@ -5,6 +5,10 @@
   and even helps to find the members who are defaulters and much more !.
   
   * The project is deployed on pythonanywhere cloud service http://c0mrade.pythonanywhere.com/ 
+
+
+  # Issue
+  * Pdf generation feature is not working in production due to insufficient access to the server since it requires additional package to be installed.
   
   # Requirements
   * Python 3
