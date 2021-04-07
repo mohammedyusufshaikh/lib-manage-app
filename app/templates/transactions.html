@@ -5,20 +5,6 @@
 {% block content %}
     {{super()}}
 
-        <div>
-            <nav class="navbar navbar-expand-lg navbar-light bg-light">
-                <div class="collapse navbar-collapse">
-
-                    <ul class="navbar-nav mr-auto">
-                        <li class="nav-item active">
-                            <a class="btn  btn-primary" href={{url_for('transactions_bp.get_defaulters')}} role="button">Get Defaulters</a>
-                        </li>
-                    </ul>
-
-                </div>
-            </nav>
-        </div>
-
         {% with messages = get_flashed_messages() %}
         {% if messages %}
             {% for message in messages %}
@@ -29,6 +15,28 @@
         {% endif %}
         {% endwith %}
 
+
+
+        <div>
+            <nav class="navbar navbar-expand-lg navbar-light bg-light">
+                <div class="collapse navbar-collapse">
+
+                    <ul class="navbar-nav ml-auto" style="margin-right:165px;">
+                        <li class="nav-item active mr-5">
+                            <a class="btn  btn-primary" href={{url_for('transactions_bp.get_defaulters')}} role="button" >Get Defaulters</a>
+                        </li>
+
+                        <li class="nav-item active">
+                            <a class="btn  btn-primary" href={{url_for('transactions_bp.notify_member')}} role="button" id="notify">Notify Defaulters</a>
+                        </li>
+                    </ul>
+
+                </div>
+            </nav>
+        </div>
+
+
+
         {% if transactions %}
         <div class="card w-75" style="margin-left:12.5%;margin-top:1%">
           <h5 class="card-header">Transactions</h5>
@@ -37,8 +45,8 @@
             <thead>
                 <tr>
                     <th>Transaction ID</th>
-                    <th>Member ID</th>
-                    <th>Book ID</th>
+                    <th>Member Name</th>
+                    <th>Book Title</th>
                     <th>Issue Date</th>
                     <th>Return Date</th>
                     <th>Fees</th>
@@ -50,8 +58,8 @@
                 {% for transaction in transactions%}
                 <tr>
                   <td>{{transaction.id}}</td>
-                  <td><a href="{{url_for('members_bp.get_member',id=transaction.member_id)}}">{{transaction.member_id}}</a></td>
-                  <td>{{transaction.book_id}}</td>
+                  <td><a href="{{url_for('members_bp.get_member',id=transaction.member_id)}}">{{members.get(transaction.member_id).name}}</a></td>
+                  <td>{{books.get(transaction.book_id).title}}</td>
                   <td>{{transaction.issue_date.strftime("%d-%m-%Y")}}</td>
                   <td >{{transaction.return_date.strftime("%d-%m-%Y")}}</td>
                   {% if transaction.fee >= 500 and transaction.book_status%}

@@ -1,4 +1,5 @@
 from flask import Blueprint, render_template, redirect, url_for, flash
+from sqlalchemy import or_
 from app.books.forms import BookForm, SearchForm
 import re
 from app.models import Books
@@ -7,15 +8,9 @@ from app.models import db
 books_bp = Blueprint('books_bp', __name__)
 
 
-def search(pattern, data):
-    result = []
+def search(pattern):
 
-    for book in data:
-        temp_1 = re.search(pattern, book.title)
-        temp_2 = re.search(pattern, book.author)
-        if temp_1 or temp_2:
-            result.append(book)
-            print(type(book))
+    result = db.session.query('Books.id','Books.title','Books.author','Books.publisher').filter(or_(Books.title.ilike(f'%{pattern}%'), Books.author.ilike(f'%{pattern}%'))).all()
     return result
 
 
@@ -24,8 +19,10 @@ def result_show():
     form = SearchForm()
     if form.is_submitted():
         pattern = form.search_title.data
-        books = Books.query.all()
-        result = search(pattern, books)
+        result = search(pattern)
+        for r in result:
+            print(r[1])
+
         if result:
             flash("Books Found !")
             return render_template("found.html", result=result)

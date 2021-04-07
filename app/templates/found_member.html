@@ -30,9 +30,9 @@
             <tbody>
                 {% for member in result %}
                 <tr>
-                  <td>{{member.id}}</td>
-                  <th><a href="{{url_for('members_bp.get_member',id=member.id)}}">{{member.name}}</a></th>
-                  <td>{{member.contact}}</td>
+                  <td>{{member[0]}}</td>
+                  <th><a href="{{url_for('members_bp.get_member',id=member[0])}}">{{member[1]}}</a></th>
+                  <td>{{member[2]}}</td>
                 </tr>
                 {% endfor %}
             </tbody>

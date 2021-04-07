@@ -2,18 +2,15 @@ from flask import Blueprint, render_template, flash, redirect, url_for
 from app.members.forms import MemberForm, SearchForm
 from app.models import Members
 from app.models import db
+from sqlalchemy import or_
 import re
 
 members_bp = Blueprint("members_bp", __name__)
 
 
-def search(pattern, data):
-    result = []
-    for member in data:
-        temp_1 = re.search(pattern, str(member.id))
-        temp_2 = re.search(pattern, member.name)
-        if temp_1 or temp_2:
-            result.append(member)
+def search(pattern):
+
+    result = db.session.query('Members.id', 'Members.name','Members.contact').filter(or_(Members.id.ilike(f'%{pattern}%'),Members.name.ilike(f'%{pattern}%')))
     return result
 
 
@@ -22,14 +19,14 @@ def search_member():
     form = SearchForm()
     if form.is_submitted():
         pattern = form.search_title.data
-        members = Members.query.all()
-        result = search(pattern, members)
+        result = search(pattern)
+
         if result:
             flash("Member Found !")
             return render_template("found_member.html", result=result)
         else:
             flash("Sorry! No such member found")
-            return render_template("found.html")
+            return render_template("found_member.html")
 
 
 @members_bp.route("/get_members", methods=["GET", "POST"])

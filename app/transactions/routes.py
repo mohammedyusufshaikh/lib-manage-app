@@ -5,11 +5,56 @@ from app.models import Transactions, Books, Members
 from app.models import db
 from datetime import date
 from sqlalchemy import desc, text
+import os
+import smtplib
+from email.message import EmailMessage
+
+EMAIL_ADDRESS = 'lifesciences444@gmail.com'
+EMAIL_PASSWORD = 'biological'
 
 transactions_bp = Blueprint("transactions_bp", __name__)
 
 Charge = 10
 Late_Charge = Charge + 5
+
+
+def send_mail_to_defaulters(contacts):
+    msg = EmailMessage()
+    get_names = []
+    # for mail in contacts:
+    #     get_names.append(db.session.query('name').filter(Members.email == mail).first())
+    # print(get_names)
+    msg['Subject'] = f'Alert Regarding Fees Due !'
+    msg['From'] = EMAIL_ADDRESS
+    msg['To'] = contacts
+    msg.set_content(f'Hi User,\n Your payment is due. \n Please return the book as soon as possible !')
+
+    print(msg)
+
+    with smtplib.SMTP_SSL('smtp.gmail.com', 465) as smtp:
+        smtp.login(EMAIL_ADDRESS, EMAIL_PASSWORD)
+        smtp.send_message(msg)
+
+
+@transactions_bp.route("/notify_member", methods=["GET", "POST"])
+def notify_member():
+    notify_list = []
+    final_list = []
+    result = db.session.query('member_id').from_statement(
+        text('''select member_id from transactions where return_date < NOW() and book_status=1;''')).all()
+
+    for r in result:
+        notify_list.append(Members.query.get_or_404(r[0]))
+
+    for r in notify_list:
+        final_list.append(r.email)
+
+    send_mail_to_defaulters(final_list)
+    flash("Mail Sent Successfully To Defaulters !")
+    transactions = Transactions.query.all()
+    books = Books.query
+    members = Members.query
+    return render_template("transactions.html", transactions=transactions, books=books, members=members)
 
 
 @transactions_bp.route("/add_transaction/<int:id>", methods=["GET", "POST"])
@@ -29,11 +74,21 @@ def add_transaction(id):
             db.session.add(data)
             db.session.commit()
             flash("Book issued successfully !")
+            form.book_id.default = book.id
+            data = Members.query.all()
+            choice_list = [(member.id, str(member.id) + "---------" + member.name) for member in data]
+            form.member_id.choices = choice_list
+            form.member_id.default = form.member_id.data
+            form.process()
             return render_template("add_transaction.html", form=form)
         else:
             flash("Sorry! book cannot be issued due to low stock  or member not found!")
             return render_template("add_transaction.html", form=form)
     form.book_id.default = book.id
+    data = Members.query.all()
+    choice_list = [(member.id, str(member.id) + "---------" + member.name) for member in data]
+    form.member_id.choices = choice_list
+
     form.process()
     return render_template("add_transaction.html", form=form)
 
@@ -42,17 +97,25 @@ def add_transaction(id):
 def view_transaction(id):
     transactions = Transactions.query.filter_by(member_id=id).all()
     member = Members.query.filter_by(id=id).first()
-    return render_template("view_transaction.html", transactions=transactions,member=member)
+    member_detail = Members.query
+    book_detail = Books.query
+    return render_template("view_transaction.html", transactions=transactions, member=member, md=member_detail,
+                           bd=book_detail)
 
 
 @transactions_bp.route("/transactions", methods=["GET", "POST"])
 def all_transactions():
     transactions = Transactions.query.all()
-    return render_template("transactions.html", transactions=transactions)
+    books = Books.query
+    members = Members.query
+
+    return render_template("transactions.html", transactions=transactions, books=books, members=members)
 
 
 @transactions_bp.route("/get_defaulters", methods=["GET", "POST"])
 def get_defaulters():
+    books = Books.query
+    members = Members.query
     curr_dt = date.today()
     final_list = []
     # result = db.session.query('id').filter(Transactions.return_date < curr_dt, Transactions.book_status == True).all()
@@ -70,7 +133,7 @@ def get_defaulters():
             record.fee = final_charge
             final_list.append(record)
 
-    return render_template("transactions.html", transactions=final_list)
+    return render_template("transactions.html", transactions=final_list, books=books, members=members)
 
 
 @transactions_bp.route("/edit_transaction/<int:t_id>", methods=["GET", "POST"])
@@ -87,6 +150,9 @@ def edit_transaction(t_id):
         flash("Transaction edited successfully !")
         return redirect(url_for('transactions_bp.view_transaction', id=transaction.member_id))
     form.book_id.default = transaction.book_id
+    data = Members.query.all()
+    choice_list = [(member.id, str(member.id) + "-----------" + member.name) for member in data]
+    form.member_id.choices = choice_list
     form.member_id.default = transaction.member_id
     form.issue_date.default = transaction.issue_date
     form.return_date.default = transaction.return_date
@@ -95,12 +161,12 @@ def edit_transaction(t_id):
     return render_template("edit_transaction.html", transaction=transaction, form=form)
 
 
-@transactions_bp.route("/filter", methods=["GET", "POST"])
-def filter_transaction():
-    members = Members.query.all()
-    trans_filter = db.session.query(Transactions.member_id, func.sum(Transactions.fee)).group_by(Transactions.member_id)
-    print(trans_filter.all())
-    return "OK"
+# @transactions_bp.route("/filter", methods=["GET", "POST"])
+# def filter_transaction():
+#     members = Members.query.all()
+#     trans_filter = db.session.query(Transactions.member_id, func.sum(Transactions.fee)).group_by(Transactions.member_id)
+#     print(trans_filter.all())
+#     return "OK"
 
 
 @transactions_bp.route("/return_transaction/<int:book_id>/<int:member_id>", methods=["GET", "POST"])

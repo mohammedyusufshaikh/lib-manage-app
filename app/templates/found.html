@@ -30,9 +30,9 @@
             <tbody>
              {% for book in result %}
                 <tr>
-                  <th><a href="{{url_for('books_bp.get_book',id=book.id)}}">{{book.title}}</a></th>
-                  <td>{{book.author}}</td>
-                  <td>{{book.publisher}}</td>
+                  <th><a href="{{url_for('books_bp.get_book',id=book[0])}}">{{book[1]}}</a></th>
+                  <td>{{book[2]}}</td>
+                  <td>{{book[3]}}</td>
                 </tr>
              {% endfor %}
             </tbody>

@@ -24,7 +24,7 @@
                 <tr>
                     <th>Transaction ID</th>
                     <th>Member ID</th>
-                    <th>Book ID</th>
+                    <th>Book Title</th>
                     <th>Issue Date</th>
                     <th>Return Date</th>
                     <th>Fees</th>
@@ -36,7 +36,7 @@
                 <tr>
                   <td>{{transaction.id}}</td>
                   <td>{{transaction.member_id}}</td>
-                  <td>{{transaction.book_id}}</td>
+                  <td>{{bd.get(transaction.book_id).title}}</td>
                   <td>{{transaction.issue_date.strftime("%d-%m-%Y")}}</td>
                   <td>{{transaction.return_date.strftime("%d-%m-%Y")}}</td>
                   <td>{{transaction.fee}}</td>
