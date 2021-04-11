@@ -9,6 +9,7 @@
 
   # Issue
   * Pdf generation feature is not working in production due to insufficient access to the server since it requires additional package to be installed.
+  * Email Notification feature is not working in production since gmail server has authentication issues when logging in through deployed version.
   
   # Requirements
   * Python 3
